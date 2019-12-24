@@ -1,1 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://47.104.7.130:3306/mistress
+    username: root
+    password: yuchao428
+    type: com.alibaba.druid.pool.DruidDataSource
 
+  redis:
+    database: 0
+    password: yuchao428
+    port: 6379
+    host: 47.104.7.130
+    lettuce:
+      shutdown-timeout: 100ms
+      pool:
+        min-idle: 5
+        max-active: 8
+        max-idle: 10
+        max-wait: 1ms
