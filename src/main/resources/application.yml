@@ -17,3 +17,10 @@ spring:
         max-active: 8
         max-idle: 10
         max-wait: 1ms
+				
+	thymeleaf:
+		mode: HTML5
+		encoding: UTF-8
+		content-type: text/html
+		cache: false
+		
