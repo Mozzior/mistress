@@ -1,10 +1,11 @@
 spring:
+	# datasource
   datasource:
     url: jdbc:mysql://47.104.7.130:3306/mistress
     username: root
     password: yuchao428
     type: com.alibaba.druid.pool.DruidDataSource
-
+	# redis
   redis:
     database: 0
     password: yuchao428
@@ -17,10 +18,14 @@ spring:
         max-active: 8
         max-idle: 10
         max-wait: 1ms
-				
+	# thymeleaf
 	thymeleaf:
 		mode: HTML5
 		encoding: UTF-8
 		content-type: text/html
 		cache: false
+	# devtools
+	devtools:
+		livereload:
+			enabled: false
 		
