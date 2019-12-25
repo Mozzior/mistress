@@ -1,4 +1,4 @@
-package cn.yushiu.mistress.dao;
+package cn.yushiu.mistress.mapper;
 
 import cn.yushiu.mistress.entity.Blog;
 

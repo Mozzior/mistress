@@ -8,7 +8,7 @@ import lombok.Data;
  * @author 
  */
 @Data
-public class UserInfo implements Serializable {
+public class Cart implements Serializable {
     /**
      * 地址ID
      */

@@ -1,6 +1,6 @@
-package cn.yushiu.mistress.dao;
+package cn.yushiu.mistress.mapper;
 
-import cn.yushiu.mistress.model.Tag;
+import cn.yushiu.mistress.entity.Tag;
 
 public interface TagDao {
     int deleteByPrimaryKey(Integer id);

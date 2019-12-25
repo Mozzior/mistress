@@ -1,6 +1,6 @@
-package cn.yushiu.mistress.dao;
+package cn.yushiu.mistress.mapper;
 
-import cn.yushiu.mistress.model.UserRole;
+import cn.yushiu.mistress.entity.UserRole;
 
 public interface UserRoleDao {
     int deleteByPrimaryKey(Integer id);
