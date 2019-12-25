@@ -19,85 +19,89 @@
     </properties>
 
     <dependencies>
-				<!-- RabbitMQ -->
+        <!-- RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-				<!-- Redis -->
+        <!-- Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-				<!-- Mail -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <!-- Mail -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-				<!-- Security -->
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-				<!-- Thymeleaf -->
+        <!-- Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-				<!-- Cache -->
-				<dependency>
-				    <groupId>org.springframework.boot</groupId>
-				    <artifactId>spring-boot-starter-cache</artifactId>
-				</dependency>
-				<!-- Web -->
+        <!-- Cache -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-				<!-- Mybatis -->
+        <!-- Mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-				<!-- Druid -->
+        <!-- Druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.10</version>
         </dependency>
-				<!-- Swagger2 -->
-				<dependency>
-						<groupId>io.springfox</groupId>
-						<artifactId>springfox-swagger2</artifactId>
-						<version>2.9.2</version>
-				</dependency>
-				<!-- Swagger-ui -->
-				<dependency>
-						<groupId>io.springfox</groupId>
-						<artifactId>springfox-swagger-ui</artifactId>
-						<version>2.9.2</version>
-				</dependency>
-				<!-- Devtools -->
+        <!-- Swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!-- Swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!-- Devtools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-				<!-- Mysql -->
+        <!-- Mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-				<!-- Lombok -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-				<!-- Test -->
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -109,13 +113,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-				<!-- Rabbit-test -->
+        <!-- Rabbit-test -->
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit-test</artifactId>
             <scope>test</scope>
         </dependency>
-				<!-- Security-test -->
+        <!-- Security-test -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -129,36 +133,36 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-						<plugin>
-						    <groupId>com.spotify</groupId>
-						    <artifactId>docker-maven-plugin</artifactId>
-						    <version>1.2.0</version>
-						    <executions>
-						        <execution>
-						            <id>build-image</id>
-						            <phase>package</phase>
-						            <goals>
-						                <goal>build</goal>
-						            </goals>
-						        </execution>
-						    </executions>
-						    <configuration>
-						        <dockerHost>http://47.104.7.130:2375</dockerHost>
-						        <imageName>javaboy/${project.artifactId}</imageName>
-						        <imageTags>
-						            <imageTag>${project.version}</imageTag>
-						        </imageTags>
-						        <forceTags>true</forceTags>
-						        <dockerDirectory>${project.basedir}</dockerDirectory>
-						        <resources>
-						            <resource>
-						                <targetPath>/</targetPath>
-						                <directory>${project.build.directory}</directory>
-						                <include>${project.build.finalName}.jar</include>
-						            </resource>
-						        </resources>
-						    </configuration>
-						</plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.spotify</groupId>-->
+<!--                <artifactId>docker-maven-plugin</artifactId>-->
+<!--                <version>1.2.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>build-image</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <dockerHost>http://47.104.7.130:2375</dockerHost>-->
+<!--                    <imageName>Mozzior/${project.artifactId}</imageName>-->
+<!--                    <imageTags>-->
+<!--                        <imageTag>${project.version}</imageTag>-->
+<!--                    </imageTags>-->
+<!--                    <forceTags>true</forceTags>-->
+<!--                    <dockerDirectory>${project.basedir}</dockerDirectory>-->
+<!--                    <resources>-->
+<!--                        <resource>-->
+<!--                            <targetPath>/</targetPath>-->
+<!--                            <directory>${project.build.directory}</directory>-->
+<!--                            <include>${project.build.finalName}.jar</include>-->
+<!--                        </resource>-->
+<!--                    </resources>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

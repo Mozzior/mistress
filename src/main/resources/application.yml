@@ -1,31 +1,37 @@
 spring:
-	# datasource
   datasource:
     url: jdbc:mysql://47.104.7.130:3306/mistress
     username: root
     password: yuchao428
     type: com.alibaba.druid.pool.DruidDataSource
-	# redis
+  cache:
+    cache-names: c1,c2
+    redis:
+      time-to-live: 1800s
   redis:
     database: 0
     password: yuchao428
     port: 6379
     host: 47.104.7.130
     lettuce:
-      shutdown-timeout: 100ms
       pool:
-        min-idle: 5
+        min-idle: 0
         max-active: 8
-        max-idle: 10
-        max-wait: 1ms
-	# thymeleaf
-	thymeleaf:
-		mode: HTML5
-		encoding: UTF-8
-		content-type: text/html
-		cache: false
-	# devtools
-	devtools:
-		livereload:
-			enabled: false
-		
+        max-idle: 8
+        max-wait: -1ms
+      shutdown-timeout: 100ms
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+  devtools:
+    livereload:
+      enabled: false
+  rabbitmq:
+    addresses: 47.104.7.130
+    port: 5672
+    username: guest
+    password: guest
+
