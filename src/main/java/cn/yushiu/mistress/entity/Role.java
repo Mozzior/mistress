@@ -4,35 +4,25 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * address_info
+ * role
  * @author 
  */
 @Data
 public class Role implements Serializable {
     /**
-     * 地址ID
+     * 权限ID
      */
-    private Integer id;
+    private Boolean id;
 
     /**
-     * 用户ID
+     * 权限名
      */
-    private Integer uid;
+    private String name;
 
     /**
-     * 默认地址0非1是
+     * 权限描述
      */
-    private Boolean status;
-
-    /**
-     * 联系电话
-     */
-    private String tel;
-
-    /**
-     * 接收者姓名
-     */
-    private String reveivername;
+    private String desc;
 
     private static final long serialVersionUID = 1L;
 }
