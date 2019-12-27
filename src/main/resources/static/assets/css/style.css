@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * nav
  * header
  * about
@@ -30,6 +30,7 @@ body {
 	line-height: 25px;
 	overflow: auto;
 }
+input{ outline:none; border:0; }
 .home3 .navbar-header.home2-nav {
 	left: 45%;
 	position: absolute;
@@ -1956,7 +1957,7 @@ header {
 	overflow: hidden;
 }
 .modal-dialog {
-	margin: 30px auto;
+	margin: 10% auto 1%;
 	width: 1000px;
 }
 
@@ -3048,21 +3049,10 @@ select {
 
 /*----------- subscribe -----------------------*/
 
-.main .subscribe {
-	background: #f5f5f5;
+.subscribe p{
+	margin-bottom: 20px;
 }
-.subscribe-bg {
-	background: #f5f5f5;
-}
-.main .subscribe input[type="text"],
-.subscribe-bg input[type="text"] {
-	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-	border-bottom: 1px solid rgb(221, 221, 221);
-}
-.main .subscribe h2,
-.subscribe.subscribe-bg h2 {
-	border: none;
-}
+
 .subscribe h2 {
 	border-top: 1px solid rgb(235, 235, 235);
 	padding-top: 100px;
@@ -3070,11 +3060,10 @@ select {
 }
 .subscribe input[type="text"] {
 	border: none;
-	border-bottom: 1px solid rgb(235, 235, 235);
-	margin-top: 50px;
-	margin-bottom: 50px;
-	padding-bottom: 10px;
+	border-bottom: 1px solid rgb(0, 0, 0);
+	font-size: 24px;
 	text-align: center;
+	margin-bottom: 50px;
 	width: 80%;
 }
 .subscribe input[type="button"] {
@@ -3092,6 +3081,7 @@ select {
 }
 .subscribe {
 	padding-bottom: 100px;
+	padding-top: 100px;
 }
 
 /*----------- news box -----------------------*/

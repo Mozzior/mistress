@@ -7,8 +7,6 @@
 	$(window).load(function() {
 		$('#loading').fadeOut();
 		$('#preloader').delay(300).fadeOut('slow');
-		   $('#modal1').modal('show');
-
  });
 /*------------------------------------------------
  * Affix   
