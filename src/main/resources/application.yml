@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
   datasource:
     url: jdbc:mysql://47.104.7.130:3306/mistress
     username: root
@@ -26,6 +30,10 @@ spring:
     cache: false
     servlet:
       content-type: text/html
+    check-template: true
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
   devtools:
     livereload:
       enabled: false
@@ -34,4 +42,5 @@ spring:
     port: 5672
     username: guest
     password: guest
+
 
