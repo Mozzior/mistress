@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--  .menu  -->
+<div th:fragment="menu" class="modal fade bs-example-modal-lg search-bg menu-popup" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content search-popup">
+            <nav class="navbar navbar-inverse openmenu">
+                <ul class="nav navbar-nav">
+                    <li> <a href="index.html"><span>Home</span></a> </li>
+                    <li class="dropdown"> <a href="list.html" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                             aria-expanded="false"><span> Shop</span></a>
+                        <div class="dropdown-menu dropdownhover-bottom mega-menu" role="menu">
+                            <div class="col-sm-8 col-md-8">
+                                <ul>
+                                    <li><strong>Shop Pages</strong></li>
+                                    <li><a href="#">Standard Shop Page</a></li>
+                                    <li><a href="#">Small Products</a></li>
+                                    <li><a href="#">Medium Products</a></li>
+                                    <li><a href="#">Large Products</a></li>
+                                    <li><a href="#">Sidebar</a></li>
+                                    <li><a href="#">Pagination</a></li>
+                                    <li><a href="#">Shop Infinity</a></li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Products Pages</strong></li>
+                                    <li><a href="#">Product Page V1</a></li>
+                                    <li><a href="#">Product Page V2</a></li>
+                                    <li><a href="#">Product Page V3</a></li>
+                                    <li><a href="#">Product Page V4</a></li>
+                                    <li><a href="#">Simple Product</a></li>
+                                    <li><a href="#">Variable Product</a></li>
+                                    <li><a href="#">External Product</a></li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Other Shop Pages</strong></li>
+                                    <li><a href="#">Collection</a></li>
+                                    <li><a href="#">LookBook</a></li>
+                                    <li><a href="#">Shopping Cart</a></li>
+                                    <li><a href="#">Wishlist</a></li>
+                                    <li><a href="#">Order Tracking</a></li>
+                                    <li><a href="#">My Account</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4 col-md-4"> <img src="../static/assets/images/Hover-menu-img.jpg" alt="Hover-menu-img"> </div>
+                        </div>
+                    </li>
+                    <li> <a href="#" class="dropdown-toggle"><span>About</span></a> </li>
+                    <li> <a href="blog.html"><span>Blog</span></a> </li>
+
+                    <li> <a href="contact.html"><span>Contact</span></a> </li>
+                    <li> <a href="list.html"><span>Elements</span></a> </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<!--  /.menu  -->
+</body>
+</html>

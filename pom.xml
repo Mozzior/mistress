@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
@@ -133,36 +133,27 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.spotify</groupId>-->
-<!--                <artifactId>docker-maven-plugin</artifactId>-->
-<!--                <version>1.2.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>build-image</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <dockerHost>http://47.104.7.130:2375</dockerHost>-->
-<!--                    <imageName>Mozzior/${project.artifactId}</imageName>-->
-<!--                    <imageTags>-->
-<!--                        <imageTag>${project.version}</imageTag>-->
-<!--                    </imageTags>-->
-<!--                    <forceTags>true</forceTags>-->
-<!--                    <dockerDirectory>${project.basedir}</dockerDirectory>-->
-<!--                    <resources>-->
-<!--                        <resource>-->
-<!--                            <targetPath>/</targetPath>-->
-<!--                            <directory>${project.build.directory}</directory>-->
-<!--                            <include>${project.build.finalName}.jar</include>-->
-<!--                        </resource>-->
-<!--                    </resources>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:alpine</image>
+                    </from>
+                    <to>
+                        <image>registry.hub.docker.com/mozzior/mistress</image>
+                        <tags>
+                            <tag>v0.1.1</tag>
+                        </tags>
+                        <auth>
+                            <username>mozzior</username>
+                            <password>yuchao428</password>
+                        </auth>
+                    </to>
+                </configuration>
+
+            </plugin>
         </plugins>
     </build>
 
