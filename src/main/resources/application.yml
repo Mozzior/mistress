@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8080
 spring:
   mvc:
     static-path-pattern: /static/**
@@ -42,7 +42,5 @@ spring:
   rabbitmq:
     addresses: 47.104.7.130
     port: 5672
-    username: guest
-    password: guest
-
-
+    username: mozzior
+    password: yuchao428

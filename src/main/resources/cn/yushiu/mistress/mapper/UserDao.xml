@@ -6,14 +6,13 @@
     <result column="faceimg" jdbcType="VARCHAR" property="faceimg" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="userpass" jdbcType="VARCHAR" property="userpass" />
-    <result column="birthday" jdbcType="TIME" property="birthday" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="grade" jdbcType="BOOLEAN" property="grade" />
     <result column="enabled" jdbcType="BOOLEAN" property="enabled" />
     <result column="locked" jdbcType="BOOLEAN" property="locked" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, faceimg, username, userpass, birthday, email, grade, enabled, locked
+    id, faceimg, username, userpass, email, grade, enabled, locked
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,25 +20,17 @@
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
-
-  <select id="loadUserByUsername" resultType="cn.yushiu.mistress.entity.User">
-    select * from user where username = #{username}
-  </select>
-  <select id="getUserRolesByUid" resultType="cn.yushiu.mistress.entity.Role">
-    select * from role r, user_role ur where r.id = ur.rid and ur.uid = #{id}
-  </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yushiu.mistress.entity.User" useGeneratedKeys="true">
     insert into user (faceimg, username, userpass, 
-      birthday, email, grade, 
-      enabled, locked)
+      email, grade, enabled, 
+      locked)
     values (#{faceimg,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userpass,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=TIME}, #{email,jdbcType=VARCHAR}, #{grade,jdbcType=BOOLEAN}, 
-      #{enabled,jdbcType=BOOLEAN}, #{locked,jdbcType=BOOLEAN})
+      #{email,jdbcType=VARCHAR}, #{grade,jdbcType=BOOLEAN}, #{enabled,jdbcType=BOOLEAN}, 
+      #{locked,jdbcType=BOOLEAN})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yushiu.mistress.entity.User" useGeneratedKeys="true">
     insert into user
@@ -52,9 +43,6 @@
       </if>
       <if test="userpass != null">
         userpass,
-      </if>
-      <if test="birthday != null">
-        birthday,
       </if>
       <if test="email != null">
         email,
@@ -78,9 +66,6 @@
       </if>
       <if test="userpass != null">
         #{userpass,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null">
-        #{birthday,jdbcType=TIME},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -108,9 +93,6 @@
       <if test="userpass != null">
         userpass = #{userpass,jdbcType=VARCHAR},
       </if>
-      <if test="birthday != null">
-        birthday = #{birthday,jdbcType=TIME},
-      </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
@@ -131,11 +113,20 @@
     set faceimg = #{faceimg,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
       userpass = #{userpass,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=TIME},
       email = #{email,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=BOOLEAN},
       enabled = #{enabled,jdbcType=BOOLEAN},
       locked = #{locked,jdbcType=BOOLEAN}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="loadUserByUsername" resultType="cn.yushiu.mistress.entity.User">
+    select * from user
+    where username = #{username}
+  </select>
+  <select id="getUserRolesByUid" resultType="cn.yushiu.mistress.entity.Role">
+    select * from role r,user_role ur
+    where r.id = ur.rid and ur.uid=#{id}
+  </select>
+
+
 </mapper>

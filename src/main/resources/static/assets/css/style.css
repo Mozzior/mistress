@@ -3075,6 +3075,15 @@ select {
 	text-transform: uppercase;
 	width: 20%;
 }
+.subscribe input[type="submit"] {
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+	border: 2px solid;
+	font-size: 14px;
+	font-weight: 500;
+	padding: 10px 0;
+	text-transform: uppercase;
+	width: 20%;
+}
 .subscribe input:hover[type="button"] {
 	color: #fff;
 	background: #282828;

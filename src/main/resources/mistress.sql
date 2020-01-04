@@ -11,25 +11,11 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 25/12/2019 18:30:18
+ Date: 03/01/2020 22:29:59
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for address_info
--- ----------------------------
-DROP TABLE IF EXISTS `address_info`;
-CREATE TABLE `address_info`  (
-  `id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '地址ID',
-  `uid` int(6) NOT NULL COMMENT '用户ID',
-  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '默认地址0非1是',
-  `tel` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
-  `reveivername` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '接收者姓名',
-  PRIMARY KEY (`id`) USING BTREE,
-  CONSTRAINT `fk_user_to_address_info` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for blog
@@ -38,14 +24,32 @@ DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog`  (
   `id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '博客ID',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客名',
-  `author` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客作者',
+  `uid` int(6) UNSIGNED NOT NULL COMMENT '作者',
   `time` timestamp(6) NOT NULL COMMENT '发表时间',
   `summer` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客简述',
   `url` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客详情',
   `did` int(3) UNSIGNED NOT NULL COMMENT '博客详情ID',
+  `pid` int(4) UNSIGNED NOT NULL COMMENT '商品ID',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_blog_to_detail`(`did`) USING BTREE,
-  CONSTRAINT `fk_blog_to_detail` FOREIGN KEY (`did`) REFERENCES `detail` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `fk_blog_to_user`(`uid`) USING BTREE,
+  INDEX `fk_blog_to_product`(`pid`) USING BTREE,
+  CONSTRAINT `fk_blog_to_detail` FOREIGN KEY (`did`) REFERENCES `blog_detail` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_blog_to_product` FOREIGN KEY (`pid`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_blog_to_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for blog_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_detail`;
+CREATE TABLE `blog_detail`  (
+  `id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '博客详情ID',
+  `bid` int(3) UNSIGNED NOT NULL COMMENT '博客ID',
+  `content` blob NOT NULL COMMENT '博客详情内容',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_blog_detail_to_blog`(`bid`) USING BTREE,
+  CONSTRAINT `fk_blog_detail_to_blog` FOREIGN KEY (`bid`) REFERENCES `blog` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -85,7 +89,8 @@ CREATE TABLE `comment`  (
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论人',
   `email` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论人邮箱',
   `comments` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论内容',
-  `time` timestamp(6) NULL DEFAULT NULL COMMENT '评论时间',
+  `time` timestamp(6) NOT NULL COMMENT '评论时间',
+  `parentId` int(4) NULL DEFAULT NULL COMMENT '评论父级',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_comment_to_blog`(`bid`) USING BTREE,
   CONSTRAINT `fk_comment_to_blog` FOREIGN KEY (`bid`) REFERENCES `blog` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -115,16 +120,6 @@ CREATE TABLE `coupon`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_coupon_to_user`(`uid`) USING BTREE,
   CONSTRAINT `fk_coupon_to_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for detail
--- ----------------------------
-DROP TABLE IF EXISTS `detail`;
-CREATE TABLE `detail`  (
-  `id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '博客详情ID',
-  `content` blob NULL COMMENT '博客详情内容',
-  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -167,6 +162,7 @@ CREATE TABLE `product`  (
   `desc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品描述',
   `star` tinyint(1) NOT NULL COMMENT '星级',
   `view` int(3) NOT NULL COMMENT '查看数',
+  `time` time(6) NOT NULL COMMENT '上架时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_product_to_categories`(`cid`) USING BTREE,
   INDEX `fk_product_to_tag`(`tid`) USING BTREE,
@@ -180,10 +176,22 @@ CREATE TABLE `product`  (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
   `id` tinyint(1) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '权限ID',
-  `name` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限名',
+  `name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限名',
   `desc` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES (1, 'super_admin', '超级管理员');
+INSERT INTO `role` VALUES (2, 'system_admin', '系统管理员');
+INSERT INTO `role` VALUES (3, 'product_admin', '商品管理员');
+INSERT INTO `role` VALUES (4, 'message_admib', '消息管理员');
+INSERT INTO `role` VALUES (5, 'email_admin', '邮件管理员');
+INSERT INTO `role` VALUES (6, 'general_user', '普通用户');
+INSERT INTO `role` VALUES (7, 'important_user', '重要用户');
+INSERT INTO `role` VALUES (8, 'anonymous\n_user', '匿名用户');
 
 -- ----------------------------
 -- Table structure for stock
@@ -219,9 +227,21 @@ CREATE TABLE `subscribe`  (
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag`  (
   `id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标签ID',
-  `name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 标签名',
+  `name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名',
+  `desc` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签解释',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tag
+-- ----------------------------
+INSERT INTO `tag` VALUES (1, 'home', '轮播大图');
+INSERT INTO `tag` VALUES (2, 'banner', '轮播小图');
+INSERT INTO `tag` VALUES (3, 'trending', '折扣');
+INSERT INTO `tag` VALUES (4, 'pivot', '特色');
+INSERT INTO `tag` VALUES (5, 'discount', '打折');
+INSERT INTO `tag` VALUES (6, 'brand', '品牌');
+INSERT INTO `tag` VALUES (7, 'blog', '推荐博客');
 
 -- ----------------------------
 -- Table structure for user
@@ -232,11 +252,46 @@ CREATE TABLE `user`  (
   `faceimg` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户头像',
   `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
   `userpass` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户密码',
-  `birthday` time(6) NULL DEFAULT NULL COMMENT '生日',
   `email` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户邮箱',
   `grade` tinyint(1) NOT NULL COMMENT '用户等级',
+  `enabled` tinyint(1) NOT NULL COMMENT '账户可用',
+  `locked` tinyint(1) NOT NULL COMMENT '账户被锁',
   PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, NULL, 'super', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (2, NULL, 'system', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (3, NULL, 'product', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (4, NULL, 'messge', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (5, NULL, 'email', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (6, NULL, 'important1', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 1, 1, 0);
+INSERT INTO `user` VALUES (7, NULL, 'important2', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 1, 1, 0);
+INSERT INTO `user` VALUES (8, NULL, 'general1', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+INSERT INTO `user` VALUES (9, NULL, 'general2', '$2a$10$ZyBM9MVisI7FSVUkvjoK5eB/NbCGYgyfpv27Z7cH9tKaMTICcdgRe', '754012729@qq.com', 0, 1, 0);
+
+-- ----------------------------
+-- Table structure for user_info
+-- ----------------------------
+DROP TABLE IF EXISTS `user_info`;
+CREATE TABLE `user_info`  (
+  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '地址ID',
+  `uid` int(6) NOT NULL COMMENT '用户ID',
+  `tel` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系电话',
+  `reveivername` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '接收者姓名',
+  `birth` time(6) NULL DEFAULT NULL COMMENT '用户生日',
+  `address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户地址',
+  PRIMARY KEY (`id`, `uid`) USING BTREE,
+  CONSTRAINT `fk_user_to_user_info` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_info
+-- ----------------------------
+INSERT INTO `user_info` VALUES (1, 6, '13332007656', '俞超', NULL, '安徽合肥');
+INSERT INTO `user_info` VALUES (2, 7, '13332007656', '贾金霞', NULL, '山西临汾');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -251,6 +306,20 @@ CREATE TABLE `user_role`  (
   INDEX `fk_user_role_to_user`(`uid`) USING BTREE,
   CONSTRAINT `fk_user_role_to_role` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_role_to_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO `user_role` VALUES (1, 1, 1);
+INSERT INTO `user_role` VALUES (2, 1, 2);
+INSERT INTO `user_role` VALUES (3, 1, 3);
+INSERT INTO `user_role` VALUES (4, 1, 4);
+INSERT INTO `user_role` VALUES (5, 1, 5);
+INSERT INTO `user_role` VALUES (6, 2, 2);
+INSERT INTO `user_role` VALUES (7, 3, 3);
+INSERT INTO `user_role` VALUES (8, 4, 4);
+INSERT INTO `user_role` VALUES (9, 5, 5);
+INSERT INTO `user_role` VALUES (10, 8, 6);
 
 SET FOREIGN_KEY_CHECKS = 1;

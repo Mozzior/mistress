@@ -3,7 +3,6 @@ package cn.yushiu.mistress.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -16,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author 
  */
 @Data
-public class User implements UserDetails {
+public class User implements Serializable, UserDetails {
     /**
      * 用户ID
      */
@@ -38,11 +37,6 @@ public class User implements UserDetails {
     private String userpass;
 
     /**
-     * 生日
-     */
-    private Date birthday;
-
-    /**
      * 用户邮箱
      */
     private String email;
@@ -53,17 +47,17 @@ public class User implements UserDetails {
     private Boolean grade;
 
     /**
-     * 账户是否可用
+     * 账户可用
      */
     private Boolean enabled;
 
     /**
-     * 账户是否被锁
+     * 账户被锁
      */
     private Boolean locked;
 
     /**
-     * 权限
+     * 权限列表
      */
     private List<Role> roles;
 
@@ -72,7 +66,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (Role role:roles ) {
+        for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         }
         return authorities;
@@ -80,7 +74,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return getUserpass();
+        return userpass;
     }
 
     @Override

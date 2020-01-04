@@ -1,38 +1,45 @@
 package cn.yushiu.mistress.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
- * address_info
+ * menu
  * @author 
  */
 @Data
 public class Menu implements Serializable {
     /**
-     * 地址ID
+     * 菜单ID
      */
     private Integer id;
 
     /**
-     * 用户ID
+     * 菜单地址
      */
-    private Integer uid;
+    private String url;
 
     /**
-     * 默认地址0非1是
+     * 菜单名
      */
-    private Boolean status;
+    private String name;
 
     /**
-     * 联系电话
+     * 父菜单
      */
-    private String tel;
+    private Integer parentid;
 
     /**
-     * 接收者姓名
+     * 可用
      */
-    private String reveivername;
+    private Boolean eabled;
+
+    /**
+     * 角色
+     */
+    private List<Role> roles;
 
     private static final long serialVersionUID = 1L;
 }

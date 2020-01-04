@@ -3,13 +3,13 @@ package cn.yushiu.mistress.mapper;
 import cn.yushiu.mistress.entity.Role;
 
 public interface RoleDao {
-    int deleteByPrimaryKey(Boolean id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Role record);
 
     int insertSelective(Role record);
 
-    Role selectByPrimaryKey(Boolean id);
+    Role selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Role record);
 

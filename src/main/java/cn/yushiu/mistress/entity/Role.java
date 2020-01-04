@@ -12,7 +12,7 @@ public class Role implements Serializable {
     /**
      * 权限ID
      */
-    private Boolean id;
+    private Integer id;
 
     /**
      * 权限名
